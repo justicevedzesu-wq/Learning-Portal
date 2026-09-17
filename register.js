@@ -1,107 +1,155 @@
-document
-    .getElementById("registerForm")
-    .addEventListener("submit", function(event) {
+import {
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-        event.preventDefault();
+import {
+    getFirestore,
+    doc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-        const username =
-            document.getElementById("username").value.trim();
+import { auth } from "./firebase-config.js";
 
-        const email =
-            document.getElementById("email").value.trim();
+const db = getFirestore();
 
-        const password =
-            document.getElementById("password").value;
+const registerForm =
+    document.getElementById("registerForm");
 
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-        const message =
-            document.getElementById("message");
-
-
-        // Check if passwords match
-        if (password !== confirmPassword) {
-
-            message.innerHTML =
-                "❌ Passwords do not match.";
-
-            message.style.color = "red";
-
-            return;
-        }
+const message =
+    document.getElementById("message");
 
 
-        // Get previously registered users
-        // If there are none, create an empty array
+registerForm.addEventListener("submit", async function(event) {
 
-        let users =
-            JSON.parse(localStorage.getItem("users")) || [];
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
 
 
-        // Check if username already exists
+    // Check passwords
+    if (password !== confirmPassword) {
 
-        const usernameExists =
-            users.some(user =>
-                user.username.toLowerCase() ===
-                username.toLowerCase()
+        message.textContent =
+            "❌ Passwords do not match.";
+
+        message.style.color = "red";
+
+        return;
+    }
+
+
+    // Check minimum password length
+    if (password.length < 6) {
+
+        message.textContent =
+            "❌ Password must be at least 6 characters.";
+
+        message.style.color = "red";
+
+        return;
+    }
+
+
+    // Show loading message
+    message.textContent =
+        "Creating your account...";
+
+    message.style.color = "#2563eb";
+
+
+    try {
+
+        // Create Firebase account
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
             );
 
 
-        if (usernameExists) {
-
-            message.innerHTML =
-                "❌ Username already exists.";
-
-            message.style.color = "red";
-
-            return;
-        }
+        const user =
+            userCredential.user;
 
 
-        // Create new account
-
-        const newUser = {
-
-            username: username,
-            email: email,
-            password: password
-
-        };
+        // Add username to Firebase profile
+        await updateProfile(user, {
+            displayName: username
+        });
 
 
-        // Add new account to existing accounts
-
-        users.push(newUser);
-
-
-        // SAVE PERMANENTLY IN THIS BROWSER
-
-        localStorage.setItem(
-            "users",
-            JSON.stringify(users)
+        // Save user information in Firestore
+        await setDoc(
+            doc(db, "users", user.uid),
+            {
+                username: username,
+                email: email,
+                uid: user.uid,
+                emailVerified: false,
+                createdAt: new Date()
+            }
         );
 
 
+        // Send verification email
+        await sendEmailVerification(user);
+
+
+        // Success message
         message.innerHTML =
-            "✅ Account created successfully!";
+            "✅ Account created!<br><br>" +
+            "📧 A verification email has been sent to " +
+            email +
+            ".<br><br>" +
+            "Please check your inbox and click the verification link.";
 
-        message.style.color = "green";
-
-
-        // Clear registration form
-
-        document
-            .getElementById("registerForm")
-            .reset();
+        message.style.color = "#16a34a";
 
 
-        // Go to login after 1.5 seconds
+        // Clear form
+        registerForm.reset();
 
-        setTimeout(function() {
 
-            window.location.href = "home.html";
+    } catch (error) {
 
-        }, 1500);
+        console.error("Registration error:", error);
 
-    });
+
+        if (error.code === "auth/email-already-in-use") {
+
+            message.textContent =
+                "❌ This email is already registered.";
+
+        } else if (error.code === "auth/invalid-email") {
+
+            message.textContent =
+                "❌ Please enter a valid email address.";
+
+        } else if (error.code === "auth/weak-password") {
+
+            message.textContent =
+                "❌ Password is too weak.";
+
+        } else {
+
+            message.textContent =
+                "❌ Registration failed. Please try again.";
+
+        }
+
+        message.style.color = "red";
+    }
+
+});
