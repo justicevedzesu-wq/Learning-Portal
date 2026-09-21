@@ -7,40 +7,22 @@ function login() {
         document.getElementById("password").value;
 
 
-    // Check fields
-
-    if (
-        username === "" ||
-        password === ""
-    ) {
-
-        alert(
-            "Please enter your username and password."
-        );
-
+    if (username === "" || password === "") {
+        alert("Please enter your username and password.");
         return;
     }
 
 
-    // Get registered users
-
     const users =
-        JSON.parse(
-            localStorage.getItem("users")
-        ) || [];
+        JSON.parse(localStorage.getItem("users")) || [];
 
 
-    // Find matching account
+    const user = users.find(
+        account =>
+            account.username === username &&
+            account.password === password
+    );
 
-    const user =
-        users.find(
-            account =>
-                account.username === username &&
-                account.password === password
-        );
-
-
-    // Login successful
 
     if (user) {
 
@@ -49,40 +31,24 @@ function login() {
             JSON.stringify(user)
         );
 
+        alert("Login successful! 🎉");
 
-        alert(
-            "Login successful! 🎉"
-        );
+        window.location.href = "dashboard.html";
 
+    } else {
 
-        window.location.href =
-            "dashboard.html";
-
-    }
-
-    // Login failed
-
-    else {
-
-        alert(
-            "Incorrect username or password ❌"
-        );
+        alert("Incorrect username or password ❌");
 
     }
 }
 
 
-// Login form
-
 document
     .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        function(event) {
+    .addEventListener("submit", function(event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-            login();
+        login();
 
-        }
-    );
+    });
