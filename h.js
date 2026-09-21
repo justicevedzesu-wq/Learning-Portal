@@ -1,14 +1,31 @@
 function login() {
 
+```
+const usernameInput =
+    document.getElementById("username");
+
+const passwordInput =
+    document.getElementById("password");
+
+
+// Make sure the inputs exist
+
+if (!usernameInput || !passwordInput) {
+
+    alert("Login form could not be found.");
+
+    return;
+}
+
 
 const username =
-    document.getElementById("username").value.trim();
+    usernameInput.value.trim();
 
 const password =
-    document.getElementById("password").value;
+    passwordInput.value;
 
 
-// Check fields
+// Check empty fields
 
 if (
     username === "" ||
@@ -23,32 +40,65 @@ if (
 }
 
 
-// Get registered users
+// Get saved users
 
-const users =
-    JSON.parse(
-        localStorage.getItem("users")
-    ) || [];
+let savedUsers =
+    localStorage.getItem("users");
 
 
-// Find the matching account
+let users = [];
+
+
+try {
+
+    users =
+        savedUsers
+            ? JSON.parse(savedUsers)
+            : [];
+
+} catch (error) {
+
+    users = [];
+
+}
+
+
+// Make sure users is an array
+
+if (!Array.isArray(users)) {
+
+    users = [users];
+
+}
+
+
+// Find matching user
 
 const user =
     users.find(function(account) {
 
+        if (!account) {
+            return false;
+        }
+
+        const savedUsername =
+            String(account.username || "").trim();
+
+        const savedPassword =
+            String(account.password || "");
+
         return (
-            account.username === username &&
-            account.password === password
+            savedUsername.toLowerCase() ===
+            username.toLowerCase() &&
+            savedPassword === password
         );
 
     });
 
 
-// Login successful
+// Successful login
 
 if (user) {
-
-    // Save the currently logged-in user
 
     localStorage.setItem(
         "currentUser",
@@ -61,35 +111,56 @@ if (user) {
     );
 
 
-    // Go to dashboard
-
     window.location.href =
         "dashboard.html";
 
-} else {
 
-    alert(
-        "Incorrect username or password ❌"
+    return;
+}
+
+
+// Login failed
+
+alert(
+    "Incorrect username or password ❌"
+);
+```
+
+}
+
+// Connect the login form
+
+document.addEventListener(
+"DOMContentLoaded",
+function() {
+
+```
+    const loginForm =
+        document.getElementById("loginForm");
+
+
+    if (!loginForm) {
+
+        console.error(
+            "loginForm was not found."
+        );
+
+        return;
+    }
+
+
+    loginForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            login();
+
+        }
     );
 
 }
 ```
 
-}
-
-// Connect login form
-
-document
-.getElementById("loginForm")
-.addEventListener(
-"submit",
-function(event) {
-
-```
-        event.preventDefault();
-
-        login();
-
-    }
 );
-
