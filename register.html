@@ -11,8 +11,6 @@
 <title>Create Account | Student Portal</title>
 
 <link rel="stylesheet" href="register.css">
-
-<script src="register.js" defer></script>
 ```
 
 </head>
@@ -22,20 +20,14 @@
 ```
 <div class="page-container">
 
-    <!-- LEFT / WELCOME SECTION -->
-
     <div class="welcome-section">
 
         <div class="welcome-content">
 
             <div class="logo">
-
                 <div class="logo-icon">🎓</div>
-
                 <span>Student Portal</span>
-
             </div>
-
 
             <div class="welcome-text">
 
@@ -57,42 +49,30 @@
 
             </div>
 
-
             <div class="features">
 
                 <div class="feature">
-
                     <span class="feature-icon">📚</span>
-
                     <div>
                         <strong>Learn Anywhere</strong>
                         <small>Access your lessons anytime.</small>
                     </div>
-
                 </div>
 
-
                 <div class="feature">
-
                     <span class="feature-icon">📝</span>
-
                     <div>
                         <strong>Track Assignments</strong>
                         <small>Keep up with your academic work.</small>
                     </div>
-
                 </div>
 
-
                 <div class="feature">
-
                     <span class="feature-icon">🤖</span>
-
                     <div>
                         <strong>Study Smarter</strong>
                         <small>Get help with your studies.</small>
                     </div>
-
                 </div>
 
             </div>
@@ -102,8 +82,6 @@
     </div>
 
 
-    <!-- RIGHT / REGISTER SECTION -->
-
     <div class="register-section">
 
         <div class="register-box">
@@ -111,7 +89,6 @@
             <div class="mobile-logo">
                 🎓 Student Portal
             </div>
-
 
             <div class="form-header">
 
@@ -129,12 +106,7 @@
             </div>
 
 
-            <!-- REGISTRATION FORM -->
-
             <form id="registerForm">
-
-
-                <!-- USERNAME -->
 
                 <div class="input-box">
 
@@ -150,7 +122,6 @@
                             type="text"
                             id="username"
                             placeholder="Choose a username"
-                            autocomplete="username"
                             required
                         >
 
@@ -158,8 +129,6 @@
 
                 </div>
 
-
-                <!-- EMAIL -->
 
                 <div class="input-box">
 
@@ -175,7 +144,6 @@
                             type="email"
                             id="email"
                             placeholder="Enter your email"
-                            autocomplete="email"
                             required
                         >
 
@@ -183,8 +151,6 @@
 
                 </div>
 
-
-                <!-- PASSWORD -->
 
                 <div class="input-box">
 
@@ -200,7 +166,6 @@
                             type="password"
                             id="password"
                             placeholder="Create a password"
-                            autocomplete="new-password"
                             required
                         >
 
@@ -208,29 +173,14 @@
                             type="button"
                             class="password-toggle"
                             onclick="togglePassword('password', this)"
-                            aria-label="Show password"
                         >
                             👁
                         </button>
 
                     </div>
 
-
-                    <!-- PASSWORD STRENGTH -->
-
-                    <div class="password-strength">
-
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-
-                    </div>
-
                 </div>
 
-
-                <!-- CONFIRM PASSWORD -->
 
                 <div class="input-box">
 
@@ -246,7 +196,6 @@
                             type="password"
                             id="confirmPassword"
                             placeholder="Confirm your password"
-                            autocomplete="new-password"
                             required
                         >
 
@@ -254,7 +203,6 @@
                             type="button"
                             class="password-toggle"
                             onclick="togglePassword('confirmPassword', this)"
-                            aria-label="Show password"
                         >
                             👁
                         </button>
@@ -264,26 +212,17 @@
                 </div>
 
 
-                <!-- MESSAGE -->
-
                 <p id="message"></p>
 
-
-                <!-- REGISTER BUTTON -->
 
                 <button
                     type="submit"
                     class="register-button"
                 >
-
                     Create Account
-
                     <span>→</span>
-
                 </button>
 
-
-                <!-- LOGIN -->
 
                 <p class="login-text">
 
@@ -298,8 +237,6 @@
             </form>
 
 
-            <!-- SECURITY NOTE -->
-
             <div class="security-note">
 
                 🔒 Your account information is saved on this device.
@@ -312,8 +249,6 @@
 
 </div>
 
-
-<!-- PASSWORD TOGGLE -->
 
 <script>
 
@@ -329,25 +264,201 @@
 
             button.textContent = "🙈";
 
-            button.setAttribute(
-                "aria-label",
-                "Hide password"
-            );
-
         } else {
 
             input.type = "password";
 
             button.textContent = "👁";
 
-            button.setAttribute(
-                "aria-label",
-                "Show password"
-            );
-
         }
 
     }
+
+
+    // REGISTRATION
+
+    document
+        .getElementById("registerForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+            const message =
+                document
+                    .getElementById("message");
+
+
+            // CHECK FIELDS
+
+            if (
+                username === "" ||
+                email === "" ||
+                password === "" ||
+                confirmPassword === ""
+            ) {
+
+                message.textContent =
+                    "Please fill in all fields.";
+
+                message.style.color = "red";
+
+                return;
+
+            }
+
+
+            // PASSWORD LENGTH
+
+            if (password.length < 6) {
+
+                message.textContent =
+                    "Password must be at least 6 characters.";
+
+                message.style.color = "red";
+
+                return;
+
+            }
+
+
+            // PASSWORD MATCH
+
+            if (password !== confirmPassword) {
+
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.style.color = "red";
+
+                return;
+
+            }
+
+
+            // GET USERS
+
+            let users = [];
+
+            try {
+
+                users =
+                    JSON.parse(
+                        localStorage.getItem("users")
+                    ) || [];
+
+            } catch (error) {
+
+                users = [];
+
+            }
+
+
+            // MAKE SURE IT IS AN ARRAY
+
+            if (!Array.isArray(users)) {
+
+                users = [];
+
+            }
+
+
+            // CHECK USERNAME
+
+            const usernameExists =
+                users.some(function(user) {
+
+                    return (
+                        String(user.username || "")
+                            .toLowerCase() ===
+                        username.toLowerCase()
+                    );
+
+                });
+
+
+            if (usernameExists) {
+
+                message.textContent =
+                    "Username already exists.";
+
+                message.style.color = "red";
+
+                return;
+
+            }
+
+
+            // CREATE ACCOUNT
+
+            const newUser = {
+
+                username: username,
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            // SAVE ACCOUNT
+
+            users.push(newUser);
+
+            localStorage.setItem(
+                "users",
+                JSON.stringify(users)
+            );
+
+
+            // SAVE CURRENT USER
+
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify(newUser)
+            );
+
+
+            // SUCCESS
+
+            message.textContent =
+                "Account created successfully! 🎉";
+
+            message.style.color = "green";
+
+
+            // REDIRECT
+
+            setTimeout(function() {
+
+                window.location.href = "home.html";
+
+            }, 1000);
+
+        });
 
 </script>
 ```
