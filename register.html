@@ -1,250 +1,98 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create Account | Student Portal</title>
+<title>Create Account | Student Portal</title>
 
-    <link rel="stylesheet" href="register.css">
+<link rel="stylesheet" href="register.css">
 
-    <script src="register.js" defer></script>
+<script src="register.js" defer></script>
+```
 
 </head>
 
 <body>
 
-    <div class="page-container">
+```
+<div class="page-container">
 
-        <div class="welcome-section">
+    <!-- LEFT / WELCOME SECTION -->
 
-            <div class="welcome-content">
+    <div class="welcome-section">
 
-                <div class="logo">
-                    <div class="logo-icon">🎓</div>
-                    <span>Student Portal</span>
-                </div>
+        <div class="welcome-content">
 
-                <div class="welcome-text">
+            <div class="logo">
 
-                    <span class="welcome-label">
-                        WELCOME TO YOUR LEARNING JOURNEY
-                    </span>
+                <div class="logo-icon">🎓</div>
 
-                    <h1>
-                        Learn.<br>
-                        Grow.<br>
-                        <span>Achieve.</span>
-                    </h1>
-
-                    <p>
-                        Create your student account and get access
-                        to your courses, assignments, lessons and
-                        learning resources.
-                    </p>
-
-                </div>
-
-                <div class="features">
-
-                    <div class="feature">
-                        <span class="feature-icon">📚</span>
-                        <div>
-                            <strong>Learn Anywhere</strong>
-                            <small>Access your lessons anytime.</small>
-                        </div>
-                    </div>
-
-                    <div class="feature">
-                        <span class="feature-icon">📝</span>
-                        <div>
-                            <strong>Track Assignments</strong>
-                            <small>Keep up with your academic work.</small>
-                        </div>
-                    </div>
-
-                    <div class="feature">
-                        <span class="feature-icon">🤖</span>
-                        <div>
-                            <strong>Study Smarter</strong>
-                            <small>Get help with your studies.</small>
-                        </div>
-                    </div>
-
-                </div>
+                <span>Student Portal</span>
 
             </div>
 
-        </div>
+
+            <div class="welcome-text">
+
+                <span class="welcome-label">
+                    WELCOME TO YOUR LEARNING JOURNEY
+                </span>
+
+                <h1>
+                    Learn.<br>
+                    Grow.<br>
+                    <span>Achieve.</span>
+                </h1>
+
+                <p>
+                    Create your student account and get access
+                    to your courses, assignments, lessons and
+                    learning resources.
+                </p>
+
+            </div>
 
 
-        <div class="register-section">
+            <div class="features">
 
-            <div class="register-box">
+                <div class="feature">
 
-                <div class="mobile-logo">
-                    🎓 Student Portal
+                    <span class="feature-icon">📚</span>
+
+                    <div>
+                        <strong>Learn Anywhere</strong>
+                        <small>Access your lessons anytime.</small>
+                    </div>
+
                 </div>
 
-                <div class="form-header">
 
-                    <span class="form-label">
-                        GET STARTED
-                    </span>
+                <div class="feature">
 
-                    <h2>Create your account</h2>
+                    <span class="feature-icon">📝</span>
 
-                    <p>
-                        Join the learning platform and start
-                        your academic journey.
-                    </p>
+                    <div>
+                        <strong>Track Assignments</strong>
+                        <small>Keep up with your academic work.</small>
+                    </div>
 
                 </div>
 
 
-                <form id="registerForm">
+                <div class="feature">
 
-                    <div class="input-box">
+                    <span class="feature-icon">🤖</span>
 
-                        <label for="username">
-                            Username
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">👤</span>
-
-                            <input
-                                type="text"
-                                id="username"
-                                placeholder="Choose a username"
-                                autocomplete="username"
-                                required
-                            >
-
-                        </div>
-
+                    <div>
+                        <strong>Study Smarter</strong>
+                        <small>Get help with your studies.</small>
                     </div>
 
-
-                    <div class="input-box">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">✉️</span>
-
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder="Enter your email"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="input-box">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">🔒</span>
-
-                            <input
-                                type="password"
-                                id="password"
-                                placeholder="Create a password"
-                                autocomplete="new-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                onclick="togglePassword('password', this)"
-                                aria-label="Show password"
-                            >
-                                👁
-                            </button>
-
-                        </div>
-
-                        <div class="password-strength">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="input-box">
-
-                        <label for="confirmPassword">
-                            Confirm Password
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <span class="input-icon">🔐</span>
-
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                placeholder="Confirm your password"
-                                autocomplete="new-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                onclick="togglePassword('confirmPassword', this)"
-                                aria-label="Show password"
-                            >
-                                👁
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <p id="message"></p>
-
-
-                    <button
-                        type="submit"
-                        class="register-button"
-                    >
-                        Create Account
-                        <span>→</span>
-                    </button>
-
-
-                    <p class="login-text">
-                        Already have an account?
-                        <a href="home.html">Sign in</a>
-                    </p>
-
-                </form>
-
-
-                <div class="security-note">
-                    🔒 Your account information is stored securely.
                 </div>
 
             </div>
@@ -254,27 +102,255 @@
     </div>
 
 
-    <script>
+    <!-- RIGHT / REGISTER SECTION -->
 
-        function togglePassword(inputId, button) {
+    <div class="register-section">
 
-            const input = document.getElementById(inputId);
+        <div class="register-box">
 
-            if (input.type === "password") {
+            <div class="mobile-logo">
+                🎓 Student Portal
+            </div>
 
-                input.type = "text";
-                button.textContent = "🙈";
 
-            } else {
+            <div class="form-header">
 
-                input.type = "password";
-                button.textContent = "👁";
+                <span class="form-label">
+                    GET STARTED
+                </span>
 
-            }
+                <h2>Create your account</h2>
+
+                <p>
+                    Join the learning platform and start
+                    your academic journey.
+                </p>
+
+            </div>
+
+
+            <!-- REGISTRATION FORM -->
+
+            <form id="registerForm">
+
+
+                <!-- USERNAME -->
+
+                <div class="input-box">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">👤</span>
+
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Choose a username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-box">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">✉️</span>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-box">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">🔒</span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('password', this)"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+
+                    <!-- PASSWORD STRENGTH -->
+
+                    <div class="password-strength">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="input-box">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">🔐</span>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('confirmPassword', this)"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <p id="message"></p>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+
+                    Create Account
+
+                    <span>→</span>
+
+                </button>
+
+
+                <!-- LOGIN -->
+
+                <p class="login-text">
+
+                    Already have an account?
+
+                    <a href="home.html">
+                        Sign in
+                    </a>
+
+                </p>
+
+            </form>
+
+
+            <!-- SECURITY NOTE -->
+
+            <div class="security-note">
+
+                🔒 Your account information is saved on this device.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PASSWORD TOGGLE -->
+
+<script>
+
+    function togglePassword(inputId, button) {
+
+        const input =
+            document.getElementById(inputId);
+
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            button.textContent = "🙈";
+
+            button.setAttribute(
+                "aria-label",
+                "Hide password"
+            );
+
+        } else {
+
+            input.type = "password";
+
+            button.textContent = "👁";
+
+            button.setAttribute(
+                "aria-label",
+                "Show password"
+            );
 
         }
 
-    </script>
+    }
+
+</script>
+```
 
 </body>
 
