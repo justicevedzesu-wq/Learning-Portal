@@ -11,8 +11,16 @@ import { app } from "./firebase-config.js";
 const auth = getAuth(app);
 
 
-// Login function
-function login() {
+// Get login form
+const loginForm =
+    document.getElementById("loginForm");
+
+
+// Handle login
+loginForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
 
     const email =
         document.getElementById("email").value.trim();
@@ -21,7 +29,7 @@ function login() {
         document.getElementById("password").value;
 
 
-    // Check if fields are empty
+    // Check fields
     if (email === "" || password === "") {
 
         alert("Please enter your email and password.");
@@ -30,7 +38,7 @@ function login() {
     }
 
 
-    // Sign in with Firebase
+    // Login with Firebase
     signInWithEmailAndPassword(
         auth,
         email,
@@ -39,10 +47,11 @@ function login() {
 
     .then(function (userCredential) {
 
-        const user = userCredential.user;
+        const user =
+            userCredential.user;
 
 
-        // Save basic information about the logged-in student
+        // Save current user information
         localStorage.setItem(
             "currentUser",
             JSON.stringify({
@@ -56,7 +65,7 @@ function login() {
         alert("Login successful! 🎉");
 
 
-        // Go to dashboard
+        // Open dashboard
         window.location.href =
             "dashboard.html";
 
@@ -64,10 +73,16 @@ function login() {
 
     .catch(function (error) {
 
-        console.error(error);
+        console.error(
+            "Firebase login error:",
+            error
+        );
 
 
-        if (error.code === "auth/invalid-credential") {
+        if (
+            error.code ===
+            "auth/invalid-credential"
+        ) {
 
             alert(
                 "Incorrect email or password ❌"
@@ -75,7 +90,10 @@ function login() {
 
         }
 
-        else if (error.code === "auth/user-not-found") {
+        else if (
+            error.code ===
+            "auth/user-not-found"
+        ) {
 
             alert(
                 "No account was found with this email ❌"
@@ -83,7 +101,10 @@ function login() {
 
         }
 
-        else if (error.code === "auth/wrong-password") {
+        else if (
+            error.code ===
+            "auth/wrong-password"
+        ) {
 
             alert(
                 "Incorrect password ❌"
@@ -91,7 +112,10 @@ function login() {
 
         }
 
-        else if (error.code === "auth/invalid-email") {
+        else if (
+            error.code ===
+            "auth/invalid-email"
+        ) {
 
             alert(
                 "Please enter a valid email address."
@@ -102,23 +126,13 @@ function login() {
         else {
 
             alert(
-                "Login failed. Please try again."
+                "Login failed: " +
+                error.message
             );
 
         }
 
     });
 
-}
+});
 
-
-// Connect the login form
-document
-    .getElementById("loginForm")
-    .addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        login();
-
-    });
