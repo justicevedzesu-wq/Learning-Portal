@@ -1,166 +1,127 @@
-function login() {
+document.addEventListener("DOMContentLoaded", function () {
 
 ```
-const usernameInput =
-    document.getElementById("username");
-
-const passwordInput =
-    document.getElementById("password");
+const loginForm =
+    document.getElementById("loginForm");
 
 
-// Make sure the inputs exist
+if (!loginForm) {
 
-if (!usernameInput || !passwordInput) {
-
-    alert("Login form could not be found.");
-
-    return;
-}
-
-
-const username =
-    usernameInput.value.trim();
-
-const password =
-    passwordInput.value;
-
-
-// Check empty fields
-
-if (
-    username === "" ||
-    password === ""
-) {
-
-    alert(
-        "Please enter your username and password."
+    console.error(
+        "loginForm was not found."
     );
 
     return;
 }
 
 
-// Get saved users
+loginForm.addEventListener(
+    "submit",
+    function (event) {
 
-let savedUsers =
-    localStorage.getItem("users");
-
-
-let users = [];
+        event.preventDefault();
 
 
-try {
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
 
-    users =
-        savedUsers
-            ? JSON.parse(savedUsers)
-            : [];
-
-} catch (error) {
-
-    users = [];
-
-}
+        const password =
+            document
+                .getElementById("password")
+                .value;
 
 
-// Make sure users is an array
+        // Check fields
 
-if (!Array.isArray(users)) {
+        if (
+            username === "" ||
+            password === ""
+        ) {
 
-    users = [users];
+            alert(
+                "Please enter your username and password."
+            );
 
-}
-
-
-// Find matching user
-
-const user =
-    users.find(function(account) {
-
-        if (!account) {
-            return false;
+            return;
         }
 
-        const savedUsername =
-            String(account.username || "").trim();
 
-        const savedPassword =
-            String(account.password || "");
+        // Get users
 
-        return (
-            savedUsername.toLowerCase() ===
-            username.toLowerCase() &&
-            savedPassword === password
-        );
+        let users = [];
 
-    });
+        try {
 
+            users =
+                JSON.parse(
+                    localStorage.getItem("users")
+                ) || [];
 
-// Successful login
+        } catch (error) {
 
-if (user) {
+            users = [];
 
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(user)
-    );
+        }
 
 
-    alert(
-        "Login successful! 🎉"
-    );
+        // Make sure users is an array
+
+        if (!Array.isArray(users)) {
+
+            users = [];
+
+        }
 
 
-    window.location.href =
-        "dashboard.html";
+        // Find account
+
+        const user =
+            users.find(function (account) {
+
+                return (
+                    String(account.username || "")
+                        .trim()
+                        .toLowerCase() ===
+                    username.toLowerCase() &&
+
+                    String(account.password || "") ===
+                    password
+                );
+
+            });
 
 
-    return;
-}
+        // Login successful
+
+        if (user) {
+
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify(user)
+            );
 
 
-// Login failed
-
-alert(
-    "Incorrect username or password ❌"
-);
-```
-
-}
-
-// Connect the login form
-
-document.addEventListener(
-"DOMContentLoaded",
-function() {
-
-```
-    const loginForm =
-        document.getElementById("loginForm");
+            alert(
+                "Login successful! 🎉"
+            );
 
 
-    if (!loginForm) {
+            window.location.href =
+                "dashboard.html";
 
-        console.error(
-            "loginForm was not found."
-        );
+        } else {
 
-        return;
+            alert(
+                "Incorrect username or password ❌"
+            );
+
+        }
+
     }
-
-
-    loginForm.addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-            login();
-
-        }
-    );
-
-}
+);
 ```
 
-);
+});
