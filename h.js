@@ -1,36 +1,55 @@
+
+import {
+    getAuth,
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import { app } from "./firebase-config.js";
+
+
+// Connect to Firebase Authentication
+const auth = getAuth(app);
+
+
+// Login function
 function login() {
 
-    const username =
-        document.getElementById("username").value.trim();
+    const email =
+        document.getElementById("email").value.trim();
 
     const password =
         document.getElementById("password").value;
 
 
-    // Get saved accounts
+    // Check if fields are empty
+    if (email === "" || password === "") {
 
-    const users =
-        JSON.parse(localStorage.getItem("users")) || [];
+        alert("Please enter your email and password.");
 
-
-    // Look for matching account
-
-    const user =
-        users.find(account =>
-
-            account.username === username &&
-            account.password === password
-
-        );
+        return;
+    }
 
 
-    if (user) {
+    // Sign in with Firebase
+    signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+    )
 
-        // Remember the logged-in student
+    .then(function (userCredential) {
 
+        const user = userCredential.user;
+
+
+        // Save basic information about the logged-in student
         localStorage.setItem(
             "currentUser",
-            JSON.stringify(user)
+            JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                username: user.displayName
+            })
         );
 
 
@@ -38,72 +57,68 @@ function login() {
 
 
         // Go to dashboard
-
         window.location.href =
             "dashboard.html";
 
-    }
+    })
 
-    else {
+    .catch(function (error) {
 
-        alert(
-            "Incorrect username or password ❌"
-        );
-
-    }
-
-}function login() {
-
-    const username =
-        document.getElementById("username").value.trim();
-
-    const password =
-        document.getElementById("password").value;
+        console.error(error);
 
 
-    // Get saved accounts
+        if (error.code === "auth/invalid-credential") {
 
-    const users =
-        JSON.parse(localStorage.getItem("users")) || [];
+            alert(
+                "Incorrect email or password ❌"
+            );
 
+        }
 
-    // Look for matching account
+        else if (error.code === "auth/user-not-found") {
 
-    const user =
-        users.find(account =>
+            alert(
+                "No account was found with this email ❌"
+            );
 
-            account.username === username &&
-            account.password === password
+        }
 
-        );
+        else if (error.code === "auth/wrong-password") {
 
+            alert(
+                "Incorrect password ❌"
+            );
 
-    if (user) {
+        }
 
-        // Remember the logged-in student
+        else if (error.code === "auth/invalid-email") {
 
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(user)
-        );
+            alert(
+                "Please enter a valid email address."
+            );
 
+        }
 
-        alert("Login successful! 🎉");
+        else {
 
+            alert(
+                "Login failed. Please try again."
+            );
 
-        // Go to dashboard
+        }
 
-        window.location.href =
-            "dashboard.html";
-
-    }
-
-    else {
-
-        alert(
-            "Incorrect username or password ❌"
-        );
-
-    }
+    });
 
 }
+
+
+// Connect the login form
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        login();
+
+    });
