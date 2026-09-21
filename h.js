@@ -4,77 +4,121 @@ import {
     signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
 import { app } from "./firebase-config.js";
 
 
-// Connect to Firebase Authentication
+// Firebase
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-// Get login form
-const loginForm =
-    document.getElementById("loginForm");
+// Login form
+const loginForm = document.getElementById("loginForm");
 
 
-// Handle login
-loginForm.addEventListener("submit", function (event) {
+loginForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
 
-    const email =
-        document.getElementById("email").value.trim();
+    // Get username and password
+    const username =
+        document.getElementById("username").value.trim();
 
     const password =
         document.getElementById("password").value;
 
 
     // Check fields
-    if (email === "" || password === "") {
+    if (username === "" || password === "") {
 
-        alert("Please enter your email and password.");
+        alert("Please enter your username and password.");
 
         return;
     }
 
 
-    // Login with Firebase
-    signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    )
+    try {
 
-    .then(function (userCredential) {
+        // Find the username in Firestore
+        const usersRef = collection(db, "users");
+
+        const usernameQuery = query(
+            usersRef,
+            where("username", "==", username)
+        );
+
+        const querySnapshot =
+            await getDocs(usernameQuery);
+
+
+        // Username doesn't exist
+        if (querySnapshot.empty) {
+
+            alert("Username not found ❌");
+
+            return;
+        }
+
+
+        // Get the user's Firestore information
+        const userDocument =
+            querySnapshot.docs[0];
+
+        const userData =
+            userDocument.data();
+
+
+        // Get the email connected to that username
+        const email =
+            userData.email;
+
+
+        // Login through Firebase Authentication
+        const userCredential =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
 
         const user =
             userCredential.user;
 
 
-        // Save current user information
+        // Save current user
         localStorage.setItem(
             "currentUser",
             JSON.stringify({
                 uid: user.uid,
-                email: user.email,
-                username: user.displayName
+                username: username,
+                email: user.email
             })
         );
 
 
+        // Successful login
         alert("Login successful! 🎉");
 
 
-        // Open dashboard
+        // Go to dashboard
         window.location.href =
             "dashboard.html";
 
-    })
 
-    .catch(function (error) {
+    } catch (error) {
 
         console.error(
-            "Firebase login error:",
+            "Login error:",
             error
         );
 
@@ -85,18 +129,7 @@ loginForm.addEventListener("submit", function (event) {
         ) {
 
             alert(
-                "Incorrect email or password ❌"
-            );
-
-        }
-
-        else if (
-            error.code ===
-            "auth/user-not-found"
-        ) {
-
-            alert(
-                "No account was found with this email ❌"
+                "Incorrect username or password ❌"
             );
 
         }
@@ -107,18 +140,18 @@ loginForm.addEventListener("submit", function (event) {
         ) {
 
             alert(
-                "Incorrect password ❌"
+                "Incorrect username or password ❌"
             );
 
         }
 
         else if (
             error.code ===
-            "auth/invalid-email"
+            "auth/user-not-found"
         ) {
 
             alert(
-                "Please enter a valid email address."
+                "This account could not be found ❌"
             );
 
         }
@@ -126,13 +159,12 @@ loginForm.addEventListener("submit", function (event) {
         else {
 
             alert(
-                "Login failed: " +
-                error.message
+                "Login failed. Please try again."
             );
 
         }
 
-    });
+    }
 
 });
 
