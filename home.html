@@ -14,8 +14,8 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- JavaScript -->
-    <script src="h.js" defer></script>
+    <!-- Login JavaScript -->
+    <script type="module" src="h.js"></script>
 
     <!-- Study AI -->
     <link rel="stylesheet" href="chat.css">
@@ -447,6 +447,7 @@
         </div>
 
 
+        <!-- LOGIN BOX -->
         <div class="login-box">
 
             <div class="login-icon">
@@ -464,21 +465,21 @@
 
             <form id="loginForm">
 
-                <!-- USERNAME -->
+                <!-- EMAIL -->
                 <div class="input-box">
 
-                    <label for="username">
-                        Username
+                    <label for="email">
+                        Email Address
                     </label>
 
                     <div class="input-wrapper">
 
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-envelope"></i>
 
                         <input
-                            type="text"
-                            id="username"
-                            placeholder="Enter your username"
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email address"
                             required
                         >
 
@@ -517,7 +518,7 @@
 
 
                 <!-- LOGIN BUTTON -->
-                <button type="button" onclick="login()">
+                <button type="submit">
 
                     Login
 
@@ -800,5 +801,4 @@
 </body>
 
 </html>
-
 
