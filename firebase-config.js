@@ -1,44 +1,24 @@
-import {
-    sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
 
-import { auth } from "./firebase-config.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyA1gLtV-qmiGQC2hXMLnS2Vh3hfSABbjs8",
+    authDomain: "learning-portal-8e073.firebaseapp.com",
+    projectId: "learning-portal-8e073",
+    storageBucket: "learning-portal-8e073.firebasestorage.app",
+    messagingSenderId: "973204954784",
+    appId: "1:973204954784:web:7248b52e796aab4313f3c5",
+    measurementId: "G-DW3RX5QE62"
+};
 
-const resetForm = document.getElementById("resetForm");
-const message = document.getElementById("message");
+const app = initializeApp(firebaseConfig);
 
-resetForm.addEventListener("submit", async function(event) {
+const auth = getAuth(app);
 
-    event.preventDefault();
+const analytics = getAnalytics(app);
 
-    const email =
-        document.getElementById("email").value.trim();
-
-    if (!email) {
-        message.textContent =
-            "Please enter your email address.";
-        return;
-    }
-
-    try {
-
-        await sendPasswordResetEmail(auth, email);
-
-        message.textContent =
-            "✅ Password reset link sent! Check your email.";
-
-        message.style.color = "green";
-
-        resetForm.reset();
-
-    } catch (error) {
-
-        console.error("Password reset error:", error);
-
-        message.textContent =
-            "❌ " + error.message;
-
-        message.style.color = "red";
-    }
-
-});
+export {
+    app,
+    auth
+};
